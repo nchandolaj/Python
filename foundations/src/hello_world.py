@@ -1,4 +1,7 @@
-# The customary hello world!
+'''
+The customary Hello World!
+'''
+
 print("Hello World!")
 
 # Kick & Giggles: Creative ways of saying Hello World!
