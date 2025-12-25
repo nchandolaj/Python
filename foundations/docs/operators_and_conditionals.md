@@ -1,4 +1,4 @@
-# Python Control Flow: Comparators, Logical Operators, and Conditionals
+# Control Flow: Comparators, Logical Operators, and Conditionals
 
 *Focus: Master Python's decision-making power. Understand how the language evaluates truth. This involves three layers: comparing values, combining those comparisons, and using the result to branch your code.*
 
@@ -65,4 +65,3 @@ elif temperature >= 20 and is_raining:
 else:
     print("It might be a bit chilly.")
 ```
-
