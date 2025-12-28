@@ -1,4 +1,4 @@
-# Memory Management: Python Vs OS
+# Python Deep Dive: Memory Management
 
 Python is an **interpreted language**, meaning it doesn't talk to the OS directly; it uses the Python Interpreter (**CPython**) as a mediator.
 
