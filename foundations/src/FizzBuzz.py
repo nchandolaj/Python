@@ -9,7 +9,17 @@ n = 100
 fizz = 3
 buzz = 5
 
+
+
 for i in range (1, 101):
+  output = ""
+  
+  if (i % fizz) == 0: output += "Fizz"
+  if (i % buzz) == 0: output += "Buzz"
+  
+  print(f"{output} at {i=}")
+
+  '''
   fizz_mod = (i % fizz)
   buzz_mod = (i % buzz)
 
@@ -21,4 +31,5 @@ for i in range (1, 101):
     print(f"Buzz at {i=}")
   else:
     pass
+  '''
 
