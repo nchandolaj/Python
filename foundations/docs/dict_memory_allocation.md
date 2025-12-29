@@ -46,7 +46,7 @@ print(sys.getsizeof(empty_dict)) # Outputs 64 (or 240 in some environments)
 ---
 # Relevant sub-topics
 
-## The Structure of the Entries Array
+## A. The Structure of the Entries Array
 
 To understand the Structure of the **Entries Array**, we have to look at the C source code of CPython (specifically `dictobject.h`).
 
@@ -95,7 +95,7 @@ If you add `d["name"] = "Alice"`, one of the 8 slots in the entries array will l
 
 Since Python pre-allocates 8 of these, that's $8 \times 24 = 192$ bytes just for the entries array, which explains the majority of the memory footprint of an empty dict.
 
-## Dictionary Deletion and Dummy Placeholders
+## B. Dictionary Deletion and Dummy Placeholders
 
 When you delete a key in Python, the dictionary doesn't physically "shrink" the array. Instead, it uses a sentinel value to maintain the integrity of the hash table.
 
