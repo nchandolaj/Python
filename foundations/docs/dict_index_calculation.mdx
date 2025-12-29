@@ -1,0 +1,41 @@
+# `dict` - Initial Index Calculation
+  
+To calculate the initial index for a dictionary lookup or insertion, Python uses a combination of its internal hashing protocol and a bitwise masking operation. The goal is to transform any arbitrary object into a valid index within the current bounds of the hash table.
+
+## 1. The `hash()` Function and `PyObject_Hash`
+
+  The first step is converting the object into an integer. In Python, this is handled by the built-in `hash()` function, which calls the C function `PyObject_Hash`.
+
+* **For Integers:** Small integers usually hash to themselves (e.g., `hash(100)` is `100`).
+* **For Strings:** Python uses **SipHash**, a cryptographic-strength hash function designed to prevent "Hash Denial of Service" attacks. It incorporates a random "seed" generated when the Python process starts, meaning the hash of "apple" will be the same during one run but different in the next.
+* **For Custom Objects:** By default, the hash is derived from the object's memory address, though you can override this using the `__hash__` method.
+
+The result of this stage is a **signed integer** (typically 64-bit on modern systems).
+
+## 2. The Masking Operation
+The raw hash value can be a massive number (like `8734292837429`), but our dictionary only has a limited number of slots (8 at instantiation). Python must "shrink" this hash to fit the table.
+
+Instead of using the modulo operator (`hash % 8`), which is computationally expensive in C, Python uses a **bitwise AND** operation with a **mask**.
+
+* **The Size:** A dictionary's size ($S$) is always a power of 2 ($2^n$). 
+* **The Mask:** The mask is always $S - 1$.
+* **For an empty dict ($S=8$):** The mask is $7$ (Binary: `000...0111`).
+
+### The Math:
+
+`index = hash(key) & mask`
+
+By "ANDing" the hash with the mask, Python essentially ignores all the high-order bits of the hash and keeps only the lowest bits that correspond to the table's size.
+
+## 3. Detailed Logic Flow
+
+When you execute `d["name"] = "Alice"`:
+
+1.  **Generate Hash:** Python runs the string "name" through the **SipHash** algorithm. Let's assume the result is `123456789`.
+2.  **Binary Representation:** * `123456789` in binary ends in `...100010101`.
+3.  **Apply Mask:**
+    * `Hash: 01010101` (last 8 bits)
+    * `Mask: 00000111` (binary 7)
+    * **Result:** `00000101` (binary 5)
+4.  **Final Index:** The initial index for this key is **5**.
+  
