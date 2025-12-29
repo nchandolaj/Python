@@ -103,3 +103,49 @@ make_pizza("Large", "Pepperoni", "Mushrooms", address="123 Python Lane")
 * `**kwargs`: Turns arguments into a Dictionary {}.
 * **Order matters**: The standard order in a function definition is: `standard parameters`, `*args`, `default parameters`, `**kwargs`.
 
+---
+
+# Function Arguments - Pass By Object Reference
+
+## Python's Passing Mechanism: Pass by Object Reference
+Python does not use standard "Pass by Value" or "Pass by Reference." Instead, it passes a reference to the object. The outcome depends on whether the object can be changed (mutable) or not (immutable).
+
+### 1. Immutable Objects (Integers, Strings, Tuples)
+When you pass an immutable object, the function cannot modify the original value. Any attempt to change it results in the creation of a new object locally within the function scope.
+
+> **Result:** The original variable outside the function remains unchanged.
+
+### 2. Mutable Objects (Lists, Dictionaries, Sets)
+When you pass a mutable object, the function receives a reference to the same object used outside. Modifying the object (e.g., adding an item to a list) affects the original variable.
+
+> **Result:** The original object is updated.
+
+> **The Exception:** When you prefix an immutable object (like an integer or string) with the `global` keyword inside a function, you are granting that function the authority to **reassign** the global variable to a new value. Without the `global` keyword, trying to change an immutable variable inside a function simply creates a new local variable, leaving the original untouched. With `global`, you are telling Python: "Don't create a local variable; change the one sitting in the global scope."
+
+### 3. The "Reassignment" Trap: Modifying vs. Reassigning
+It is important to note that even with mutable objects, **reassigning** the variable inside the function breaks the link to the original.
+* **Modifying:** Changing the contents of a mutable object (e.g., `list.append()`) updates the original.
+* **Reassigning:** Setting the parameter to a brand new value (e.g., `list = [1, 2]`) breaks the link to the original variable and creates a new local reference.
+
+```python
+# CASE 1: Modifying (Changes the original)
+def modify_list(items):
+    items.append(4)  # Modifies the existing object in memory
+
+my_list = [1, 2, 3]
+modify_list(my_list)
+print(my_list)  # Output: [1, 2, 3, 4]
+
+# CASE 2: Reassigning (Does NOT change the original)
+def reassign_list(items):
+    items = [10, 20] # Points 'items' to a brand new object; link to original is broken
+
+another_list = [1, 2, 3]
+reassign_list(another_list)
+print(another_list) # Output: [1, 2, 3]
+```
+
+### Comparison Summary
+* Immutable types: Original stays the same (looks like Pass by Value).
+* Mutable types: Original can be changed (looks like Pass by Reference).
+
