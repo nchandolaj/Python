@@ -1,0 +1,137 @@
+'''
+    Python Dictionary Object Memory Management
+'''
+import sys
+import time
+import random
+
+'''
+Reusable Functions
+'''
+def add_items(a_dict, count):
+  a_dict_size = sys.getsizeof(a_dict)
+
+  for x in range(count):
+    found = True
+
+    while found:
+      i = random.randint(1, 100000)
+      if a_dict.get(f"State_{i}", None) == None:
+        found = False
+
+    # add an item to the dict
+    a_dict[f"State_{i}"] = f"Capital_{i}"
+
+    # Notify if dictionary length changes
+    if a_dict_size < sys.getsizeof(a_dict):
+        print(f"NOTE: Dictionary size increased {a_dict_size} bytes to {sys.getsizeof(a_dict)} bytes, when {x+1}th element was added and the length of dictionary became {len(a_dict)}.")
+        a_dict_size = sys.getsizeof(a_dict)
+  
+  return a_dict
+
+def remove_items(a_dict, count):
+  a_dict_size = sys.getsizeof(a_dict)
+
+  for x in range(count):
+    # Randomly select an item from the dictionary
+    random_key = random.choice(list(a_dict.keys()))
+    del a_dict[random_key]
+
+    # Notify if dictionary size reduces, howver this is never supposed to happen
+    # because Python does not release memory from a dictionary when an item is removed.
+    if a_dict_size > sys.getsizeof(a_dict):
+        print(f"NOTE: Dictionary size decreased from {a_dict_size} bytes to {sys.getsizeof(a_dict)} bytes, when {x+1}th element was removed and the length of dictionary became {len(a_dict)}.")
+        a_dict_size = sys.getsizeof(a_dict)
+  
+  return a_dict
+
+'''
+    1. EMPTY DICTIONARY
+'''
+print ("\n*** Empty Dictionary Instantiation ***\n")
+
+empty_dict = {} # Instantiate an empty dictionary
+print(f"{len(empty_dict)=}, {sys.getsizeof(empty_dict)=}")
+
+empty_dict = add_items(empty_dict, 1)
+print(f"{len(empty_dict)=}, {sys.getsizeof(empty_dict)=}")
+
+'''
+    2. ADDING ITEMS TO DICTIONARY
+'''
+print ("\n*** Dictionary Memory Management As it Grows ***\n")
+
+dict1 = {} # Instantiate an empty dictionary
+print(f"Size of an empty dictionary is {sys.getsizeof(dict1)} bytes.")
+
+dict1 = add_items(dict1, 250)
+print(f"Size of a dictionary with {len(dict1)} items is {sys.getsizeof(dict1)} bytes.")
+
+'''
+    3. REMOVING ITEMS FROM DICTIONARY
+
+NOTE: 
+- Dictionaries almost never shrink when you delete items.
+- Even if we delete every single item until the dictionary is empty, 
+  it will likely still report the same high memory usage.
+'''
+print ("\n*** Dictionary Memory Management As it Shrinks ***\n")
+dict1 = remove_items(dict1, 50)
+
+print(f"Dictionary size is {sys.getsizeof(dict1)} bytes with {len(dict1)} items.")
+
+# EXCEPTION: dict1.clear() 
+# In recent Python versions, calling .clear() will actually reset the dictionary 
+# and potentially shrink the memory back down to its initial state.
+# NOTE: .clear() deletes all items in the dictionary.
+dict1.clear()
+print(f"\nAfter .clear() - Dictionary size is {sys.getsizeof(dict1)} bytes with {len(dict1)} items.")
+
+
+'''
+    4. OBSERVE DICTIONARY MEMEORY MANAGEMENT AS WE ADD & REMOVE ITEMS DURING ITS LIFECYCLE
+'''
+print ("\n*** Dictionary Memory Management As it Grows & Shrinks over several cycles. ***\n")
+
+print(f"Empty dictionary size is {sys.getsizeof(dict1)} bytes.")
+
+# STEP 1: ADD 10 items
+print(f"\n* STEP 1: ADD 10 items \n")
+dict1 = add_items(dict1, 10)
+print(f"\nDictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
+
+#time.sleep(1) # Delay of 1 second
+
+# STEP 2: REMOVE 5 items
+print(f"\n* STEP 2: REMOVE 5 items \n")
+dict1 = remove_items(dict1, 5)
+print(f"Dictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
+#time.sleep(1) # Delay of 1 second
+
+# STEP 3: ADD 20 items
+print(f"\n* STEP 3: ADD 20 more items \n")
+dict1 = add_items(dict1, 20)
+print(f"\nDictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
+#time.sleep(1) # Delay of 1 second
+
+# STEP 4: REMOVE 15 items
+print(f"\n* STEP 4: REMOVE 15 items \n")
+dict1 = remove_items(dict1, 15)
+print(f"Dictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
+#time.sleep(1) # Delay of 1 second
+
+# STEP 5: ADD 100 more items to check how memory grows
+print(f"\n* STEP 5: ADD 100 more items \n")
+dict1 = add_items(dict1, 100)
+print(f"\nDictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
+
+# STEP 6: REMOVE 100 items
+print(f"\n* STEP 6: REMOVE 100 items \n")
+dict1 = remove_items(dict1, 100)
+print(f"Dictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
+#time.sleep(1) # Delay of 1 second
+
+# STEP 7: ADD 100 more items to check how memory grows
+print(f"\n* STEP 7: ADD 100 more items \n")
+dict1 = add_items(dict1, 100)
+print(f"\nDictionary size is {(sys.getsizeof(dict1))}, and length is {len(dict1)} \n")
