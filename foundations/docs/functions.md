@@ -115,12 +115,12 @@ When you pass an immutable object, the function cannot modify the original value
 
 > **Result:** The original variable outside the function remains unchanged.
 
+> **The Exception:** When you prefix an immutable object (like an integer or string) with the `global` keyword inside a function, you are granting that function the authority to **reassign** the global variable to a new value. Without the `global` keyword, trying to change an immutable variable inside a function simply creates a new local variable, leaving the original untouched. With `global`, you are telling Python: "Don't create a local variable; change the one sitting in the global scope."
+
 ### 2. Mutable Objects (Lists, Dictionaries, Sets)
 When you pass a mutable object, the function receives a reference to the same object used outside. Modifying the object (e.g., adding an item to a list) affects the original variable.
 
 > **Result:** The original object is updated.
-
-> **The Exception:** When you prefix an immutable object (like an integer or string) with the `global` keyword inside a function, you are granting that function the authority to **reassign** the global variable to a new value. Without the `global` keyword, trying to change an immutable variable inside a function simply creates a new local variable, leaving the original untouched. With `global`, you are telling Python: "Don't create a local variable; change the one sitting in the global scope."
 
 ### 3. The "Reassignment" Trap: Modifying vs. Reassigning
 It is important to note that even with mutable objects, **reassigning** the variable inside the function breaks the link to the original.
