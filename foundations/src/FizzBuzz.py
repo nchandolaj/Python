@@ -17,7 +17,7 @@ for i in range (1, 101):
   if (i % fizz) == 0: output += "Fizz"
   if (i % buzz) == 0: output += "Buzz"
   
-  print(f"{output} at {i=}")
+  if output != "": print(f"{output} at {i=}")
 
   '''
   fizz_mod = (i % fizz)
