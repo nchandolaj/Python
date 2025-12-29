@@ -52,7 +52,7 @@ In this case, the value **5** is assigned to length and **10** is assigned to wi
 
 ---
 
-# Default Arguments or keyword arguments (**kwargs)
+# Default Arguments or keyword arguments (`**kwargs`)
 
 ## 1. Default Arguments
 Sometimes you want a parameter to have a "standard" value if the user doesn't provide one. You can assign this directly in the `def` line.
@@ -65,7 +65,7 @@ greet("Bob", "Good morning") # Overrides default: Hello Bob, Good morning
 ```
 > **Note:** Parameters with default values must always come **after** parameters without default values.
 
-## 2. Keyword Arguments (kwargs)
+## 2. Keyword Arguments (`kwargs`)
 Normally, arguments are assigned by position. However, you can also pass them by name. This makes your code much more readable, especially with many parameters.
 
 ```python
