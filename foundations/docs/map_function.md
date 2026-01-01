@@ -60,7 +60,3 @@ In modern Python, **List Comprehensions** are often preferred over `map()` becau
 
 **When to use `map()`?** Use it when the function you are applying is already defined (like `map(int, ["1", "2"])`) or when you are working with very large datasets where you want to keep the result as an iterator to save memory.
 
-
----
-
-**Would you like me to explain the `filter()` function next, as it is the natural "sibling" to `map()`?*
